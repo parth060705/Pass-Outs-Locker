@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Update Credentials</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            padding: 40px;
+        }
+
+        h2 {
+            text-align: center;
+            color: #7d0e87;
+            padding-bottom: 20px;
+        }
+
+        form {
+            background-color: #ffffff;
+            width: 350px;
+            height: 400px;
+            margin: auto;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        label {
+            font-weight: bold;
+            display: block;
+            margin-top: 15px;
+            color: #7d0e87;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            box-sizing: border-box;
+        }
+
+        button {
+            background-color: #7d0e87;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            margin-top: 20px;
+            width: 100%;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background-color: #1d4ed8;
+        }
+    </style>
+</head>
+
+<body>
+    <form action="/update/{{ data.sno }}" method="POST">
+        <h2>Update {{ data.sno}} Credentials</h2>
+
+        <label>Email:</label>
+        <input type="text" name="email" value="{{ data.email }}">
+
+        <label>Username:</label>
+        <input type="text" name="username" value="{{ data.username }}">
+
+        <label>Password:</label>
+        <input type="text" name="password" value="{{ data.password }}">
+
+        <button type="submit">Update</button>
+    </form>
+</body>
+
+</html>
