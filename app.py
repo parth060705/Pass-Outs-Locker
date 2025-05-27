@@ -75,7 +75,6 @@ def notes():
 
 @app.route("/add", methods=["POST"])
 def add_note():
-    # sno = request.form["sno"]
     topic = request.form["topic"]
     content = request.form["content"]
 
@@ -90,9 +89,23 @@ def delete_note(sno):
     if notes_delete:
         db.session.delete(notes_delete)
         db.session.commit()
-    return redirect(url_for("notes"))    
+    return redirect(url_for("notes"))
 
+@app.route("/notes/update/<int:sno>")    
+def update_note(sno):
+    notes_update = notessaver.query.filter_by(sno=sno).first()
+    if notes_update:
+        return render_template("update_notes.html", data = notes_update)
+    return redirect(url_for("notes"))
 
+@app.route('/notes/update/<int:sno>', methods=['POST'])# update the credentials
+def update_note_sno(sno):
+    notes_update = notessaver.query.filter_by(sno=sno).first()
+    if notes_update:
+        notes_update.topic = request.form["topic"]
+        notes_update.content = request.form["content"]
+        db.session.commit()
+    return redirect(url_for('notes'))
 
 # to start the app
 if __name__ == "__main__":

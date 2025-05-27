@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Update Note</title>
+    <style>
+        body {
+            background-color: #f4f7f8;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 80px auto;
+            background-color: #ffffff;
+            padding: 40px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.1);
+            border-radius: 12px;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #4CAF50;
+        }
+
+        label {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 6px;
+            color: #555;
+        }
+
+        input[type="text"],
+        textarea {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            box-sizing: border-box;
+            font-size: 16px;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #4CAF50;
+        }
+
+        .btn-secondary {
+            background-color: #4CAF50;
+            margin-left: 10px;
+        }
+
+        .btn-secondary:hover {
+            background-color: #5a6268;
+        }
+
+        .btn-group {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Update Note</h2>
+        <form action="{{ url_for('update_note_sno', sno=data.sno) }}" method="POST">
+            <label for="topic">Topic</label>
+            <input type="text" id="topic" name="topic" value="{{ data.topic }}" required>
+
+            <label for="content">Content</label>
+            <textarea id="content" name="content" rows="8" required>{{ data.content }}</textarea>
+
+            <div class="btn-group">
+                <button type="submit">Update</button>
+                <a href="{{ url_for('notes') }}"><button type="button" class="btn-secondary">Cancel</button></a>
+            </div>
+        </form>
+    </div>
+</body>
+</html>
