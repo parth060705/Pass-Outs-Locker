@@ -18,18 +18,18 @@
 
     /* Navbar */
     .navbar {
-      position: absolute;
+      position: fixed;
       top: 0;
       width: 100%;
       background-color: #4CAF50;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 0 20px;
+      padding: 10px 20px;
       z-index: 1000;
     }
 
-    .navbar .brand {
+    .brand {
       color: white;
       font-size: 22px;
       font-weight: bold;
@@ -44,55 +44,65 @@
     .navbar-links a {
       color: white;
       text-decoration: none;
-      padding: 14px 10px;
+      padding: 10px;
       font-weight: 500;
     }
 
     .navbar-links a:hover {
       background-color: #45a049;
+      border-radius: 4px;
     }
 
     .menu-toggle {
       display: none;
-      font-size: 24px;
+      font-size: 26px;
       color: white;
       cursor: pointer;
     }
 
-    /* Mobile */
     @media (max-width: 768px) {
       .navbar {
-        flex-wrap: wrap;
+        flex-direction: column;
+        align-items: flex-start;
       }
 
       .navbar-links {
         display: none;
         flex-direction: column;
         width: 100%;
-        background-color: #4CAF50;
-      }
-
-      .navbar-links a {
-        text-align: left;
-        padding: 12px 20px;
       }
 
       .navbar.active .navbar-links {
         display: flex;
       }
 
+      .navbar-links a {
+        padding: 12px 20px;
+        width: 100%;
+      }
+
       .menu-toggle {
         display: block;
+        align-self: flex-start;
       }
     }
 
-    .form-box, .credentials-box {
+    .form-box  {
+      max-width: 600px;
       margin: 2rem auto;
       background-color: #ffffff;
       padding: 2rem;
       border-radius: 10px;
       box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-      width: 100%;
+    }
+
+    .credentials-box{
+      max-width: 900px;
+      margin: 2rem auto;
+      background-color: #ffffff;
+      padding: 2rem;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     }
 
     h2 {
@@ -153,10 +163,15 @@
       gap: 10px;
     }
 
+    .table-wrapper {
+      overflow-x: auto;
+    }
+
     table {
       width: 100%;
       border-collapse: collapse;
       margin-top: 1rem;
+      min-width: 600px;
     }
 
     th, td {
@@ -180,7 +195,7 @@
 
   <!-- Responsive Navbar -->
   <nav class="navbar" id="navbar">
-    <a href="/" class="brand">NoteVault</a>
+    <a href="/" class="brand">Pass-Out Locker</a>
     <span class="menu-toggle" onclick="toggleMenu()">☰</span>
     <div class="navbar-links">
       <a href="/">Passwords</a>
@@ -192,6 +207,7 @@
   <!-- Password Form -->
   <form class="form-box" method="POST" action="/">
     <h2>Password Saver</h2>
+
     <label for="website">Website/Application</label>
     <input type="text" id="website" name="website" placeholder="e.g., Facebook, Gmail" required>
 
@@ -210,39 +226,41 @@
   <!-- Saved Credentials Table -->
   <div class="credentials-box">
     <h2>Saved Credentials</h2>
-    <table>
-      <thead>
-        <tr>
-          <th>sno</th>
-          <th>Website</th>
-          <th>Email</th>
-          <th>Username</th>
-          <th>Password</th>
-          <th colspan="2" style="text-align: center;">Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for passwordsaver in allsavepassword %}
-        <tr>
-          <td>{{passwordsaver.sno}}</td>
-          <td>{{passwordsaver.website}}</td>
-          <td>{{passwordsaver.email}}</td>
-          <td>{{passwordsaver.username}}</td>
-          <td>{{passwordsaver.password}}</td>
-          <td colspan="2">
-            <div class="action-buttons">
-              <button class="buttonde">
-                <a class="link" href="{{ url_for('update_form', sno=passwordsaver.sno) }}">Update</a>
-              </button>
-              <button class="buttonde">
-                <a class="link" href="{{ url_for('delete', sno=passwordsaver.sno) }}">Delete</a>
-              </button>
-            </div>
-          </td>
-        </tr>
-        {% endfor %}
-      </tbody>
-    </table>
+    <div class="table-wrapper">
+      <table>
+        <thead>
+          <tr>
+            <th>SNo</th>
+            <th>Website</th>
+            <th>Email</th>
+            <th>Username</th>
+            <th>Password</th>
+            <th colspan="2" style="text-align: center;">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for passwordsaver in allsavepassword %}
+          <tr>
+            <td>{{passwordsaver.sno}}</td>
+            <td>{{passwordsaver.website}}</td>
+            <td>{{passwordsaver.email}}</td>
+            <td>{{passwordsaver.username}}</td>
+            <td>{{passwordsaver.password}}</td>
+            <td colspan="2">
+              <div class="action-buttons">
+                <button class="buttonde">
+                  <a class="link" href="{{ url_for('update_form', sno=passwordsaver.sno) }}">Update</a>
+                </button>
+                <button class="buttonde">
+                  <a class="link" href="{{ url_for('delete', sno=passwordsaver.sno) }}">Delete</a>
+                </button>
+              </div>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
   </div>
 
   <script>
