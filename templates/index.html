@@ -1,41 +1,111 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8">
   <title>Password Saver</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      background-color: #f0f4f8;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding: 2rem;
+    * {
+      box-sizing: border-box;
     }
 
-    .form-box {
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f0f4f8;
+      padding-top: 60px;
+    }
+
+    /* Navbar */
+    .navbar {
+      position: absolute;
+      top: 0;
+      width: 100%;
+      background-color: #4CAF50;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 20px;
+      z-index: 1000;
+    }
+
+    .navbar .brand {
+      color: white;
+      font-size: 22px;
+      font-weight: bold;
+      text-decoration: none;
+    }
+
+    .navbar-links {
+      display: flex;
+      gap: 15px;
+    }
+
+    .navbar-links a {
+      color: white;
+      text-decoration: none;
+      padding: 14px 10px;
+      font-weight: 500;
+    }
+
+    .navbar-links a:hover {
+      background-color: #45a049;
+    }
+
+    .menu-toggle {
+      display: none;
+      font-size: 24px;
+      color: white;
+      cursor: pointer;
+    }
+
+    /* Mobile */
+    @media (max-width: 768px) {
+      .navbar {
+        flex-wrap: wrap;
+      }
+
+      .navbar-links {
+        display: none;
+        flex-direction: column;
+        width: 100%;
+        background-color: #4CAF50;
+      }
+
+      .navbar-links a {
+        text-align: left;
+        padding: 12px 20px;
+      }
+
+      .navbar.active .navbar-links {
+        display: flex;
+      }
+
+      .menu-toggle {
+        display: block;
+      }
+    }
+
+    .form-box, .credentials-box {
+      margin: 2rem auto;
       background-color: #ffffff;
       padding: 2rem;
-      padding-top: 2px;
       border-radius: 10px;
       box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-      margin-bottom: 2rem;
-      width: 350px;
-      height: 400px;
+      width: 100%;
     }
 
     h2 {
       text-align: center;
+      color: #4CAF50;
       margin-bottom: 20px;
-      color: #7d0e87;
     }
 
     label {
       display: block;
       margin-top: 10px;
       font-weight: bold;
-      color: #7d0e87;
+      color: #4CAF50;
     }
 
     input {
@@ -50,7 +120,7 @@
       width: 100%;
       margin-top: 20px;
       padding: 12px;
-      background-color: #7d0e87;
+      background-color: #4CAF50;
       color: white;
       border: none;
       border-radius: 6px;
@@ -63,11 +133,11 @@
     }
 
     .buttonde {
-      background-color: #7d0e87;
+      background-color: #4CAF50;
       color: #ffffff;
       font-size: 14px;
       border-radius: 6px;
-      padding: 5px 12px;
+      padding: 6px 12px;
       border: none;
       cursor: pointer;
     }
@@ -80,37 +150,24 @@
     .action-buttons {
       display: flex;
       justify-content: center;
-      gap: 8px;
-    }
-
-    .credentials-box {
-      width: 80%;
-      width: 900px;
-      background-color: #ffffff;
-      border-radius: 10px;
-      padding: 1.5rem;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+      gap: 10px;
     }
 
     table {
       width: 100%;
       border-collapse: collapse;
+      margin-top: 1rem;
     }
 
-    th,
-    td {
-      text-align: left;
+    th, td {
       padding: 12px;
+      text-align: left;
       border-bottom: 1px solid #e2e8f0;
     }
 
     th {
       background-color: #f1f5f9;
-      color: #7d0e87;
-    }
-
-    td {
-      color: #000000;
+      color: #4CAF50;
     }
 
     tr:hover {
@@ -121,10 +178,20 @@
 
 <body>
 
+  <!-- Responsive Navbar -->
+  <nav class="navbar" id="navbar">
+    <a href="/" class="brand">NoteVault</a>
+    <span class="menu-toggle" onclick="toggleMenu()">☰</span>
+    <div class="navbar-links">
+      <a href="/">Passwords</a>
+      <a href="/note">Notes</a>
+      <a href="#">About</a>
+    </div>
+  </nav>
+
   <!-- Password Form -->
   <form class="form-box" method="POST" action="/">
     <h2>Password Saver</h2>
-
     <label for="website">Website/Application</label>
     <input type="text" id="website" name="website" placeholder="e.g., Facebook, Gmail" required>
 
@@ -140,7 +207,7 @@
     <button type="submit">Save Credentials</button>
   </form>
 
-  <!-- Credentials Display -->
+  <!-- Saved Credentials Table -->
   <div class="credentials-box">
     <h2>Saved Credentials</h2>
     <table>
@@ -164,10 +231,10 @@
           <td>{{passwordsaver.password}}</td>
           <td colspan="2">
             <div class="action-buttons">
-              <button type="update" class="buttonde">
+              <button class="buttonde">
                 <a class="link" href="{{ url_for('update_form', sno=passwordsaver.sno) }}">Update</a>
               </button>
-              <button type="delete" class="buttonde">
+              <button class="buttonde">
                 <a class="link" href="{{ url_for('delete', sno=passwordsaver.sno) }}">Delete</a>
               </button>
             </div>
@@ -177,6 +244,12 @@
       </tbody>
     </table>
   </div>
-</body>
 
+  <script>
+    function toggleMenu() {
+      document.getElementById('navbar').classList.toggle('active');
+    }
+  </script>
+
+</body>
 </html>

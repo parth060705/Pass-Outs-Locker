@@ -2,7 +2,7 @@ from flask import Flask, render_template, request, redirect, url_for, jsonify
 from flask_sqlalchemy import SQLAlchemy
 
 app=Flask(__name__)
-app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///passwordsaver.db" # to create database
+app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///data.db" # to create database
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 db=SQLAlchemy(app)
 
@@ -61,6 +61,37 @@ def update(sno):
         update_savepassword.password = request.form["password"]
         db.session.commit()
     return redirect(url_for('index'))
+
+# =======================2 Model================
+class notessaver(db.Model):
+    sno = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    topic = db.Column(db.String(100))
+    content = db.Column(db.Text)
+
+@app.route('/note', methods=["GET","POST"])    
+def notes():
+    notes = notessaver.query.all()
+    return render_template("notes.html", notes=notes)
+
+@app.route("/add", methods=["POST"])
+def add_note():
+    # sno = request.form["sno"]
+    topic = request.form["topic"]
+    content = request.form["content"]
+
+    new_note = notessaver(topic=topic, content=content)
+    db.session.add(new_note)
+    db.session.commit()
+    return redirect(url_for("notes"))
+
+@app.route("/notes/delete/<int:sno>")
+def delete_note(sno):
+    notes_delete = notessaver.query.get(sno)
+    if notes_delete:
+        db.session.delete(notes_delete)
+        db.session.commit()
+    return redirect(url_for("notes"))    
+
 
 
 # to start the app

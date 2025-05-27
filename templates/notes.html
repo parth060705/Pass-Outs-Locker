@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>My Notes</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 60px auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+        }
+
+        h1 {
+            text-align: center;
+            color: #4CAF50;
+        }
+
+        form {
+            margin-bottom: 30px;
+            padding: 20px;
+            background: #f9f9f9;
+            border-radius: 10px;
+        }
+
+        input[type="text"], textarea {
+            width: 100%;
+            padding: 12px;
+            margin: 8px 0;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        .note {
+            background-color: #fafafa;
+            padding: 15px 20px;
+            border-left: 6px solid #4CAF50;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+
+        .note h3 {
+            margin-top: 0;
+            color: #333;
+        }
+
+        .note p {
+            color: #555;
+        }
+
+        .note a {
+            color: #e74c3c;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .note a:hover {
+            text-decoration: underline;
+        }
+        * {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.navbar {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  background-color: #4CAF50;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px;
+  z-index: 1000;
+}
+
+.navbar .brand {
+  color: white;
+  font-size: 22px;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.navbar-links {
+  display: flex;
+  gap: 15px;
+}
+
+.navbar-links a {
+  color: white;
+  text-decoration: none;
+  padding: 14px 10px;
+  font-weight: 500;
+}
+
+.navbar-links a:hover {
+  background-color: #45a049;
+}
+
+.menu-toggle {
+  display: none;
+  font-size: 24px;
+  color: white;
+  cursor: pointer;
+}
+
+@media (max-width: 768px) {
+  .navbar {
+    flex-wrap: wrap;
+  }
+
+  .navbar-links {
+    display: none;
+    flex-direction: column;
+    width: 100%;
+    background-color: #4CAF50;
+  }
+
+  .navbar-links a {
+    text-align: left;
+    padding: 12px 20px;
+  }
+
+  .navbar.active .navbar-links {
+    display: flex;
+  }
+
+  .menu-toggle {
+    display: block;
+  }
+}
+
+    </style>
+</head>
+
+<nav class="navbar" id="navbar">
+    <a href="/" class="brand">NoteVault</a>
+    <span class="menu-toggle" onclick="toggleMenu()">☰</span>
+    <div class="navbar-links">
+      <a href="/">Passwords</a>
+      <a href="/note">Notes</a>
+      <a href="#">About</a>
+    </div>
+</nav>
+<script>
+    function toggleMenu() {
+      document.getElementById('navbar').classList.toggle('active');
+    }
+</script>
+
+<body>
+    <div class="container">
+        <h1>Notes</h1>
+
+        <form action="/add" method="POST">
+            <input type="text" name="topic" placeholder="topic" required>
+            <textarea name="content" placeholder="Write your note..." rows="5" required></textarea>
+            <button type="submit">Add Note</button>
+        </form>
+
+        {% for note in notes %}
+        <div class="note">
+            <h2>{{ note.sno }}</h2>
+            <h3>{{ note.topic }}</h3>
+            <p>{{ note.content }}</p>
+            <a href="/notes/delete/{{ note.sno }}">Delete</a>
+        </div>
+        {% endfor %}
+    </div>
+</body>
+</html>
