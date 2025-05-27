@@ -62,7 +62,8 @@ def update(sno):
         db.session.commit()
     return redirect(url_for('index'))
 
-# =======================2 Model================
+# =======================2 Model==========================================================
+
 class notessaver(db.Model):
     sno = db.Column(db.Integer, primary_key=True, autoincrement=True)
     topic = db.Column(db.String(100))
