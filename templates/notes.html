@@ -190,8 +190,8 @@ body {
 
         {% for note in notes %}
         <div class="note">
-            <h2>{{ note.sno }}</h2>
-            <h3>{{ note.topic }}</h3>
+            <h3>{{ note.sno }}</h3>
+            <h4>{{ note.topic }}</h4>
             <p>{{ note.content }}</p>
             <a href="/notes/delete/{{ note.sno }}">Delete</a>
             <a href="/notes/update/{{ note.sno }}">Update</a>
