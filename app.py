@@ -111,7 +111,6 @@ def update_note_sno(sno):
         notes_update.content = request.form["content"]
         date_str = request.form["date"]
         notes_update.date = datetime.strptime(date_str, "%Y-%m-%d").date()
-
         db.session.commit()
     return redirect(url_for('notes'))
 
