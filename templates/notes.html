@@ -6,14 +6,23 @@
   <style>
     * {
       box-sizing: border-box;
+      margin: 0;
+      padding: 0;
     }
 
     body {
-      margin: 0;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background-color: #f4f4f9;
+      background:  #f0f4f8;
+      color: #333;
+      line-height: 1.6;
+      min-height: 100vh;
     }
 
+    a {
+      text-decoration: none;
+    }
+
+    /* Navbar */
     .navbar {
       background: white;
       position: absolute;
@@ -29,7 +38,7 @@
     .navbar .brand {
       font-size: 22px;
       font-weight: bold;
-      color:rgb(0, 0, 0);
+      color: rgb(0, 0, 0);
       text-decoration: none;
     }
 
@@ -84,95 +93,167 @@
     }
 
     .container {
-      max-width: 700px;
-      margin: 100px auto 40px;
+      max-width: 750px;
+      margin: 120px auto 60px;
       padding: 20px;
-      background-color: white;
-      border-radius: 12px;
-      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
     }
 
     h1 {
       text-align: center;
+      font-size: 28px;
       color: #4CAF50;
       margin-bottom: 30px;
     }
 
     form {
-      background-color: #f9f9f9;
-      padding: 20px;
-      border-radius: 10px;
+      padding: 8spx;
+      border-radius: 12px;
       margin-bottom: 40px;
     }
 
     input[type="text"], textarea, input[type="date"] {
       width: 100%;
-      padding: 12px;
+      padding: 14px;
       margin-bottom: 16px;
-      border: 1px solid #ccc;
+      border: 1px solid #cdd;
       border-left: 5px solid #4CAF50;
-      border-radius: 8px;
-      font-size: 16px;
+      border-radius: 10px;
+      font-size: 15px;
+      resize: vertical;
     }
 
     button {
       background-color: #4CAF50;
       color: white;
-      padding: 12px 20px;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
+      padding: 12px 22px;
       font-size: 16px;
-      transition: background-color 0.3s;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.3s;
+      display: inline-block;
     }
 
     button:hover {
-      background-color: rgb(60, 115, 63);
+      background-color: #419845;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
     }
 
+    /* Note card */
     .note {
-      background-color: #eef7f0;
-      padding: 20px;
+      background: #fcfffc;
+      padding: 20px 24px 24px;
       border-left: 6px solid #4CAF50;
-      border-radius: 10px;
-      margin-bottom: 20px;
+      border-radius: 14px;
+      box-shadow: 0 3px 12px rgba(0, 0, 0, 0.05);
+      margin-bottom: 24px;
+      transition: all 0.3s ease;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
     }
 
-    .note h4 {
-      margin-top: 0;
-      color: #2c3e50;
+    .note:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 6px 24px rgba(0,0,0,0.08);
     }
 
-    .note p {
-      color: #555;
-    }
-
+    /* Header row with index and title */
     .note-header {
       display: flex;
-      justify-content: space-between;
       align-items: center;
-      margin-bottom: 10px;
+      gap: 12px;
+      margin-bottom: 6px;
+      flex-wrap: wrap;
     }
 
-    .note-actions {
-      display: flex;
-      gap: 15px;
-      font-size: 14px;
+    .note-index {
+      font-weight: 700;
+      color: #4CAF50;
+      font-size: 20px;
+      min-width: 40px;
+      text-align: center;
+      user-select: none;
     }
 
-    .note-actions a {
-      color: #e74c3c;
-      font-weight: bold;
-      text-decoration: none;
+    .note-title {
+      font-size: 22px;
+      font-weight: 600;
+      color:rgb(0, 0, 0);
+      flex-grow: 1;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
-    .note-actions a:hover {
-      color: rgb(175, 76, 65);
-    }
-
+    /* Date below header */
     .note-date {
       font-size: 13px;
-      color: #888;
+      color: rgb(81, 77, 77);
+      margin-bottom: 14px;
+      user-select: none;
+    }
+
+    /* Note content */
+    .note-content {
+      font-size: 15px;
+      color: #444;
+      margin-bottom: 20px;
+      white-space: pre-wrap;
+    }
+
+    /* Action buttons container at bottom */
+    .action-buttons {
+      display: flex;
+      gap: 12px;
+      justify-content: flex-end;
+      flex-wrap: wrap;
+    }
+
+    .icon-btn {
+      border: none;
+      background: none;
+      cursor: pointer;
+      padding: 8px;
+      border-radius: 50%;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 36px;
+      height: 36px;
+      box-shadow: 0 0 0 transparent;
+    }
+
+    .icon-btn img {
+      width: 20px;
+      height: 20px;
+      pointer-events: none;
+      user-select: none;
+    }
+
+    .update-btn {
+      background-color: #e8fbe8;
+    }
+
+    .update-btn:hover {
+      background-color: #c6f1c6;
+      transform: scale(1.1);
+      box-shadow: 0 0 8px #6ccb6caa;
+    }
+
+    .delete-btn {
+      background-color: #fdecec;
+    }
+
+    .delete-btn:hover {
+      background-color: #fac2c2;
+      transform: scale(1.1);
+      box-shadow: 0 0 8px #f77c7caa;
     }
   </style>
 </head>
@@ -199,17 +280,25 @@
     </form>
 
     {% for note in notes %}
-    <div class="note">
+    <div class="note" role="article" aria-label="Note {{ note.sno }}">
       <div class="note-header">
-        <h3>{{ note.sno }}</h3>
-        <h4>{{ note.topic }}</h4>
-        <div class="note-actions">
-          <a href="/notes/update/{{ note.sno }}">Update</a>
-          <a href="/notes/delete/{{ note.sno }}">Delete</a>
-        </div>
+        <div class="note-index">#{{ note.sno }}</div>
+        <div class="note-title">{{ note.topic }}</div>
       </div>
-      <p>{{ note.content }}</p>
       <div class="note-date">{{ note.date.strftime('%B %d, %Y') }}</div>
+      <div class="note-content">{{ note.content }}</div>
+      <div class="action-buttons">
+        <form method="GET" action="{{ url_for('update_note', sno=note.sno) }}">
+          <button type="submit" class="icon-btn update-btn" title="Update">
+            <img src="{{ url_for('static', filename='images/Update.svg') }}" alt="Update">
+          </button>
+        </form>
+        <form method="GET" action="{{ url_for('delete_note', sno=note.sno) }}">
+          <button type="submit" class="icon-btn delete-btn" title="Delete">
+            <img src="{{ url_for('static', filename='images/icons8-delete.svg') }}" alt="Delete">
+          </button>
+        </form>
+      </div>
     </div>
     {% endfor %}
   </div>

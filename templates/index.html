@@ -16,7 +16,7 @@
       padding-top: 60px;
     }
 
-   .navbar {
+    .navbar {
       background: white;
       position: absolute;
       top: 0;
@@ -31,7 +31,7 @@
     .navbar .brand {
       font-size: 22px;
       font-weight: bold;
-      color:rgb(0, 0, 0);
+      color: rgb(0, 0, 0);
       text-decoration: none;
     }
 
@@ -85,7 +85,7 @@
       }
     }
 
-    .form-box  {
+    .form-box {
       max-width: 600px;
       margin: 2rem auto;
       padding: 2rem;
@@ -93,7 +93,7 @@
       box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     }
 
-    .credentials-box{
+    .credentials-box {
       max-width: 900px;
       margin: 2rem auto;
       background-color: #ffffff;
@@ -139,27 +139,6 @@
       background-color: #1d4ed8;
     }
 
-    .buttonde {
-      background-color: #4CAF50;
-      color: #ffffff;
-      font-size: 14px;
-      border-radius: 6px;
-      padding: 6px 12px;
-      border: none;
-      cursor: pointer;
-    }
-
-    .link {
-      color: #ffffff;
-      text-decoration: none;
-    }
-
-    .action-buttons {
-      display: flex;
-      justify-content: center;
-      gap: 10px;
-    }
-
     .table-wrapper {
       overflow-x: auto;
     }
@@ -185,12 +164,53 @@
     tr:hover {
       background-color: #f9fafb;
     }
+
+    .action-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .icon-btn {
+      background: none;
+      border: none;
+      padding: 6px;
+      border-radius: 50%;
+      cursor: pointer;
+      transition: all 0.2s ease-in-out;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .icon-btn img {
+      width: 24px;
+      height: 24px;
+    }
+
+    .update-btn {
+      background-color: #e0f7df;
+    }
+
+    .update-btn:hover {
+      background-color: #c1f0c0;
+      transform: scale(1.1);
+    }
+
+    .delete-btn {
+      background-color: #fdecea;
+    }
+
+    .delete-btn:hover {
+      background-color: #f8c8c5;
+      transform: scale(1.1);
+    }
   </style>
 </head>
 
 <body>
 
-  <!-- Responsive Navbar -->
+  <!-- Navbar -->
   <nav class="navbar" id="navbar">
     <a href="/" class="brand">Pass-Out Locker</a>
     <span class="menu-toggle" onclick="toggleMenu()">☰</span>
@@ -245,12 +265,16 @@
             <td>{{passwordsaver.password}}</td>
             <td colspan="2">
               <div class="action-buttons">
-                <button class="buttonde">
-                  <a class="link" href="{{ url_for('update_form', sno=passwordsaver.sno) }}">Update</a>
-                </button>
-                <button class="buttonde">
-                  <a class="link" href="{{ url_for('delete', sno=passwordsaver.sno) }}">Delete</a>
-                </button>
+                <form method="GET" action="{{ url_for('update_form', sno=passwordsaver.sno) }}">
+                  <button type="submit" class="icon-btn update-btn" title="Update">
+                    <img src="{{ url_for('static', filename='images/Update.svg') }}" alt="Update">
+                  </button>
+                </form>
+                <form method="GET" action="{{ url_for('delete', sno=passwordsaver.sno) }}">
+                  <button type="submit" class="icon-btn delete-btn" title="Delete">
+                    <img src="{{ url_for('static', filename='images/icons8-delete.svg') }}" alt="Delete">
+                  </button>
+                </form>
               </div>
             </td>
           </tr>
