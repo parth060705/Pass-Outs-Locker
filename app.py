@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for, jsonify
 from flask_sqlalchemy import SQLAlchemy
+from datetime import datetime
 
 app=Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///data.db" # to create database
@@ -68,6 +69,7 @@ class notessaver(db.Model):
     sno = db.Column(db.Integer, primary_key=True, autoincrement=True)
     topic = db.Column(db.String(100))
     content = db.Column(db.Text)
+    date = db.Column(db.Date)
 
 @app.route('/note', methods=["GET","POST"])    
 def notes():
@@ -78,8 +80,10 @@ def notes():
 def add_note():
     topic = request.form["topic"]
     content = request.form["content"]
+    date_str = request.form["date"]
+    date_obj = datetime.strptime(date_str, "%Y-%m-%d").date()
 
-    new_note = notessaver(topic=topic, content=content)
+    new_note = notessaver(topic=topic, content=content, date=date_obj)
     db.session.add(new_note)
     db.session.commit()
     return redirect(url_for("notes"))
@@ -99,14 +103,18 @@ def update_note(sno):
         return render_template("update_notes.html", data = notes_update)
     return redirect(url_for("notes"))
 
-@app.route('/notes/update/<int:sno>', methods=['POST'])# update the credentials
+@app.route('/notes/update/<int:sno>', methods=['POST'])
 def update_note_sno(sno):
     notes_update = notessaver.query.filter_by(sno=sno).first()
     if notes_update:
         notes_update.topic = request.form["topic"]
         notes_update.content = request.form["content"]
+        date_str = request.form["date"]
+        notes_update.date = datetime.strptime(date_str, "%Y-%m-%d").date()
+
         db.session.commit()
     return redirect(url_for('notes'))
+
 
 # to start the app
 if __name__ == "__main__":
