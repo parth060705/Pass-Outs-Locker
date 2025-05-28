@@ -16,8 +16,8 @@
       padding-top: 60px;
     }
 
-    /* Navbar */
-    .navbar {
+   .navbar {
+      background: white;
       position: absolute;
       top: 0;
       width: 100%;
@@ -28,10 +28,10 @@
       z-index: 1000;
     }
 
-    .brand {
-      color: black;
+    .navbar .brand {
       font-size: 22px;
       font-weight: bold;
+      color:rgb(0, 0, 0);
       text-decoration: none;
     }
 
@@ -41,55 +41,53 @@
     }
 
     .navbar-links a {
-      color: black;
       text-decoration: none;
-      padding: 10px;
+      color: #333;
+      padding: 14px 10px;
       font-weight: 500;
+      border-radius: 6px;
     }
 
     .navbar-links a:hover {
-      background-color: #45a049;
-      border-radius: 4px;
+      background-color: #e7f6ea;
     }
 
     .menu-toggle {
       display: none;
-      font-size: 26px;
-      color: white;
+      font-size: 24px;
       cursor: pointer;
     }
 
     @media (max-width: 768px) {
       .navbar {
-        flex-direction: column;
-        align-items: flex-start;
+        flex-wrap: wrap;
       }
 
       .navbar-links {
         display: none;
         flex-direction: column;
         width: 100%;
+        background-color: #4CAF50;
+      }
+
+      .navbar-links a {
+        text-align: left;
+        padding: 12px 20px;
+        color: white;
       }
 
       .navbar.active .navbar-links {
         display: flex;
       }
 
-      .navbar-links a {
-        padding: 12px 20px;
-        width: 100%;
-      }
-
       .menu-toggle {
         display: block;
-        align-self: flex-start;
       }
     }
 
     .form-box  {
       max-width: 600px;
       margin: 2rem auto;
-      background-color: #ffffff;
       padding: 2rem;
       border-radius: 10px;
       box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);

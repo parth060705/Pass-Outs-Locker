@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="UTF-8" />
     <title>Update Note</title>
     <style>
         body {
@@ -34,7 +34,8 @@
         }
 
         input[type="text"],
-        textarea {
+        textarea,
+        input[type="date"] {
             width: 100%;
             padding: 12px;
             margin-bottom: 20px;
@@ -43,7 +44,6 @@
             box-sizing: border-box;
             font-size: 16px;
             border-left: 6px solid #4CAF50;
-
         }
 
         button {
@@ -58,20 +58,24 @@
         }
 
         button:hover {
-            background-color:rgb(60, 115, 63);
+            background-color: rgb(60, 115, 63);
         }
 
         .btn-secondary {
-            background-color: #4CAF50;
+            background-color: #9e9e9e;
             margin-left: 10px;
         }
 
         .btn-secondary:hover {
-            background-color: rgb(60, 115, 63);
+            background-color: #7b7b7b;
         }
 
         .btn-group {
             text-align: center;
+        }
+
+        .btn-group a {
+            text-decoration: none;
         }
     </style>
 </head>
@@ -85,9 +89,12 @@
             <label for="content">Content</label>
             <textarea id="content" name="content" rows="8" required>{{ data.content }}</textarea>
 
+            <label for="date">Date</label>
+            <input type="date" id="date" name="date" value="{{ data.date.strftime('%Y-%m-%d') }}" required>
+
             <div class="btn-group">
                 <button type="submit">Update</button>
-                <a href="{{ url_for('notes') }}"><button type="button" class="btn-secondary">Cancel</button></a>
+                <a href="{{ url_for('notes') }}" class="btn-secondary"><button type="button" class="btn-secondary">Cancel</button></a>
             </div>
         </form>
     </div>

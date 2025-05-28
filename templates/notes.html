@@ -1,173 +1,184 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>My Notes</title>
-    <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f4f4f9;
-            margin: 0;
-            padding: 0;
-        }
+  <meta charset="UTF-8" />
+  <title>My Notes</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
 
-        
-        .container {
-            max-width: 600px;
-            margin: 80px auto;
-            padding: 20px;
-            background-color: white;
-            border-radius: 12px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-        }
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f4f4f9;
+    }
 
-        h1 {
-            text-align: center;
-            color: #4CAF50;
-        }
+    .navbar {
+      background: white;
+      position: absolute;
+      top: 0;
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 20px;
+      z-index: 1000;
+    }
 
-        form {
-            margin-bottom: 30px;
-            padding: 20px;
-            background: #f9f9f9;
-            border-radius: 10px;
-        }
+    .navbar .brand {
+      font-size: 22px;
+      font-weight: bold;
+      color:rgb(0, 0, 0);s
+      text-decoration: none;
+    }
 
-        input[type="text"], textarea {
-            width: 100%;
-            padding: 12px;
-            margin: 8px 0;
-            border-radius: 8px;
-            border: 1px solid #ccc;
-            font-size: 16px;
-            box-sizing: border-box;
-            border-left: 6px solid #4CAF50;
+    .navbar-links {
+      display: flex;
+      gap: 15px;
+    }
 
-        }
+    .navbar-links a {
+      text-decoration: none;
+      color: #333;
+      padding: 14px 10px;
+      font-weight: 500;
+      border-radius: 6px;
+    }
 
-        button {
-            background-color: #4CAF50;
-            color: white;
-            padding: 12px 20px;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 16px;
-        }
+    .navbar-links a:hover {
+      background-color: #e7f6ea;
+    }
 
-        button:hover {
-            background-color:rgb(60, 115, 63);
-        }
+    .menu-toggle {
+      display: none;
+      font-size: 24px;
+      cursor: pointer;
+    }
 
-        .note {
-            background-color:rgb(237, 244, 237);
-            padding: 10px 10px;
-            border-left: 6px solid #4CAF50;
-            border-radius: 8px;
-            margin-bottom: 15px;
-        }
+    @media (max-width: 768px) {
+      .navbar {
+        flex-wrap: wrap;
+      }
 
-        .note h3 {
-            margin-top: 0;
-            color: #333;
-        }
+      .navbar-links {
+        display: none;
+        flex-direction: column;
+        width: 100%;
+        background-color: #4CAF50;
+      }
 
-        .note p {
-            color: rgb(0, 0, 0);
-            margin-bottom: 10px;
-        }
+      .navbar-links a {
+        text-align: left;
+        padding: 12px 20px;
+        color: white;
+      }
 
-        .note a {
-            color: #e74c3c;
-            text-decoration: none;
-            font-weight: bold;
-            margin-right: 15px;
-        }
+      .navbar.active .navbar-links {
+        display: flex;
+      }
 
-        .note a:hover {
-          color:rgb(148, 75, 67);
-          text-decoration: underline;
-        }
-        * {
-  box-sizing: border-box;
-}
+      .menu-toggle {
+        display: block;
+      }
+    }
 
-body {
-  margin: 0;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-}
+    .container {
+      max-width: 700px;
+      margin: 100px auto 40px;
+      padding: 20px;
+      background-color: white;
+      border-radius: 12px;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
+    }
 
-.navbar {
-  position: absolute;
-  top: 0;
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0 20px;
-  z-index: 1000;
-}
+    h1 {
+      text-align: center;
+      color: #4CAF50;
+      margin-bottom: 30px;
+    }
 
-.navbar .brand {
-  color: black;
-  font-size: 22px;
-  font-weight: bold;
-  text-decoration: none;
-}
+    form {
+      background-color: #f9f9f9;
+      padding: 20px;
+      border-radius: 10px;
+      margin-bottom: 40px;
+    }
 
-.navbar-links {
-  display: flex;
-  gap: 15px;
-}
+    input[type="text"], textarea, input[type="date"] {
+      width: 100%;
+      padding: 12px;
+      margin-bottom: 16px;
+      border: 1px solid #ccc;
+      border-left: 5px solid #4CAF50;
+      border-radius: 8px;
+      font-size: 16px;
+    }
 
-.navbar-links a {
-  color: black;
-  text-decoration: none;
-  padding: 14px 10px;
-  font-weight: 500;
-}
+    button {
+      background-color: #4CAF50;
+      color: white;
+      padding: 12px 20px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 16px;
+      transition: background-color 0.3s;
+    }
 
-.navbar-links a:hover {
-  background-color: #45a049;
-}
+    button:hover {
+      background-color: rgb(60, 115, 63);
+    }
 
-.menu-toggle {
-  display: none;
-  font-size: 24px;
-  color: white;
-  cursor: pointer;
-}
+    .note {
+      background-color: #eef7f0;
+      padding: 20px;
+      border-left: 6px solid #4CAF50;
+      border-radius: 10px;
+      margin-bottom: 20px;
+    }
 
-@media (max-width: 768px) {
-  .navbar {
-    flex-wrap: wrap;
-  }
+    .note h4 {
+      margin-top: 0;
+      color: #2c3e50;
+    }
 
-  .navbar-links {
-    display: none;
-    flex-direction: column;
-    width: 100%;
-    background-color: #4CAF50;
-  }
+    .note p {
+      color: #555;
+    }
 
-  .navbar-links a {
-    text-align: left;
-    padding: 12px 20px;
-  }
+    .note-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
 
-  .navbar.active .navbar-links {
-    display: flex;
-  }
+    .note-actions {
+      display: flex;
+      gap: 15px;
+      font-size: 14px;
+    }
 
-  .menu-toggle {
-    display: block;
-  }
-}
+    .note-actions a {
+      color: #e74c3c;
+      font-weight: bold;
+      text-decoration: none;
+    }
 
-    </style>
+    .note-actions a:hover {
+      color: rgb(175, 76, 65);
+    }
+
+    .note-date {
+      font-size: 13px;
+      color: #888;
+    }
+  </style>
 </head>
 
-<nav class="navbar" id="navbar">
+<body>
+  <nav class="navbar" id="navbar">
     <a href="/" class="brand">Pass-Out Locker</a>
     <span class="menu-toggle" onclick="toggleMenu()">☰</span>
     <div class="navbar-links">
@@ -175,32 +186,38 @@ body {
       <a href="/note">Notes</a>
       <a href="#">About</a>
     </div>
-</nav>
-<script>
+  </nav>
+
+  <div class="container">
+    <h1>Notes</h1>
+
+    <form action="/add" method="POST">
+      <input type="text" name="topic" placeholder="Enter note topic" required>
+      <textarea name="content" placeholder="Write your note..." rows="5" required></textarea>
+      <input type="date" name="date" required>
+      <button type="submit">Add Note</button>
+    </form>
+
+    {% for note in notes %}
+    <div class="note">
+      <div class="note-header">
+        <h3>{{ note.sno }}</h3>
+        <h4>{{ note.topic }}</h4>
+        <div class="note-actions">
+          <a href="/notes/update/{{ note.sno }}">Update</a>
+          <a href="/notes/delete/{{ note.sno }}">Delete</a>
+        </div>
+      </div>
+      <p>{{ note.content }}</p>
+      <div class="note-date">{{ note.date.strftime('%B %d, %Y') }}</div>
+    </div>
+    {% endfor %}
+  </div>
+
+  <script>
     function toggleMenu() {
       document.getElementById('navbar').classList.toggle('active');
     }
-</script>
-
-<body>
-    <div class="container">
-        <h1>Notes</h1>
-
-        <form action="/add" method="POST">
-            <input type="text" name="topic" placeholder="topic" required>
-            <textarea name="content" placeholder="Write your note..." rows="5" required></textarea>
-            <button type="submit">Add Note</button>
-        </form>
-
-        {% for note in notes %}
-        <div class="note">
-            <h3>{{ note.sno }}</h3>
-            <h4>{{ note.topic }}</h4>
-            <p>{{ note.content }}</p>
-            <a href="/notes/delete/{{ note.sno }}">Delete</a>
-            <a href="/notes/update/{{ note.sno }}">Update</a>
-        </div>
-        {% endfor %}
-    </div>
+  </script>
 </body>
 </html>
