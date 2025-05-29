@@ -84,13 +84,13 @@
         <h2>Update Note</h2>
         <form action="{{ url_for('update_note_sno', sno=data.sno) }}" method="POST">
             <label for="topic">Topic</label>
-            <input type="text" id="topic" name="topic" value="{{ data.topic }}" required>
+            <input type="text" id="topic" name="topic" value="{{ data.topic }}">
 
             <label for="content">Content</label>
             <textarea id="content" name="content" rows="8" required>{{ data.content }}</textarea>
 
             <label for="date">Date</label>
-            <input type="date" id="date" name="date" value="{{ data.date.strftime('%Y-%m-%d') }}" required>
+            <input type="date" id="date" name="date" value="{{ data.date.strftime('%Y-%m-%d') }}">
 
             <div class="btn-group">
                 <button type="submit">Update</button>

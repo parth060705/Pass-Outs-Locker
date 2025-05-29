@@ -33,13 +33,13 @@
       align-items: center;
       padding: 10px 20px;
       z-index: 1000;
+      flex-wrap: wrap;
     }
 
     .navbar .brand {
       font-size: 22px;
       font-weight: bold;
       color: rgb(0, 0, 0);
-      text-decoration: none;
     }
 
     .navbar-links {
@@ -66,10 +66,6 @@
     }
 
     @media (max-width: 768px) {
-      .navbar {
-        flex-wrap: wrap;
-      }
-
       .navbar-links {
         display: none;
         flex-direction: column;
@@ -109,7 +105,7 @@
     }
 
     form {
-      padding: 8spx;
+      padding: 8px;
       border-radius: 12px;
       margin-bottom: 40px;
     }
@@ -143,7 +139,6 @@
       box-shadow: 0 4px 12px rgba(0,0,0,0.1);
     }
 
-    /* Note card */
     .note {
       background: #fcfffc;
       padding: 20px 24px 24px;
@@ -162,7 +157,6 @@
       box-shadow: 0 6px 24px rgba(0,0,0,0.08);
     }
 
-    /* Header row with index and title */
     .note-header {
       display: flex;
       align-items: center;
@@ -190,7 +184,6 @@
       text-overflow: ellipsis;
     }
 
-    /* Date below header */
     .note-date {
       font-size: 13px;
       color: rgb(81, 77, 77);
@@ -198,7 +191,6 @@
       user-select: none;
     }
 
-    /* Note content */
     .note-content {
       font-size: 15px;
       color: #444;
@@ -206,7 +198,6 @@
       white-space: pre-wrap;
     }
 
-    /* Action buttons container at bottom */
     .action-buttons {
       display: flex;
       gap: 12px;
@@ -259,7 +250,7 @@
 </head>
 
 <body>
-  <nav class="navbar" id="navbar">
+  <nav class="navbar">
     <a href="/" class="brand">Pass-Out Locker</a>
     <span class="menu-toggle" onclick="toggleMenu()">☰</span>
     <div class="navbar-links">
@@ -273,7 +264,7 @@
     <h1>Notes</h1>
 
     <form action="/add" method="POST">
-      <input type="text" name="topic" placeholder="Enter note topic" required>
+      <input type="text" name="topic" placeholder="Enter note topic">
       <textarea name="content" placeholder="Write your note..." rows="5" required></textarea>
       <input type="date" name="date" required>
       <button type="submit">Add Note</button>
@@ -305,7 +296,8 @@
 
   <script>
     function toggleMenu() {
-      document.getElementById('navbar').classList.toggle('active');
+      const navbar = document.querySelector('.navbar');
+      navbar.classList.toggle('active');
     }
   </script>
 </body>
