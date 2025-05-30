@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <title>My Notes</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <style>
     * {
       box-sizing: border-box;
@@ -66,11 +67,21 @@
     }
 
     @media (max-width: 768px) {
+      .navbar {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
       .navbar-links {
         display: none;
         flex-direction: column;
         width: 100%;
         background-color: #4CAF50;
+        padding: 10px 0;
+      }
+
+      .navbar.active .navbar-links {
+        display: flex;
       }
 
       .navbar-links a {
@@ -79,12 +90,9 @@
         color: white;
       }
 
-      .navbar.active .navbar-links {
-        display: flex;
-      }
-
       .menu-toggle {
         display: block;
+        color: #333;
       }
     }
 
@@ -263,19 +271,24 @@
   <!-- Navbar -->
   <nav class="navbar" id="navbar">
     <a href="/" class="brand">Pass-Out Locker</a>
-    <span class="menu-toggle" onclick="toggleMenu()">☰</span>
+    <span class="menu-toggle" onclick="toggleMenu()" aria-label="Toggle Menu" aria-expanded="false">☰</span>
     <div class="navbar-links">
       <a href="/">Passwords</a>
       <a href="/note">Notes</a>
       <a href="#">About</a>
     </div>
   </nav>
+
   <script>
     function toggleMenu() {
-      document.getElementById('navbar').classList.toggle('active');
+      const navbar = document.getElementById('navbar');
+      navbar.classList.toggle('active');
+      const isActive = navbar.classList.contains('active');
+      document.querySelector('.menu-toggle').setAttribute('aria-expanded', isActive);
     }
   </script>
 
+  <!-- Form Container -->
   <div class="container">
     <h1>Notes</h1>
     <form action="/add" method="POST">
@@ -286,6 +299,7 @@
     </form>
   </div>
 
+  <!-- Notes Container -->
   <div class="Saved_container">
     {% for note in notes %}
     <div class="note" role="article" aria-label="Note {{ note.sno }}">
