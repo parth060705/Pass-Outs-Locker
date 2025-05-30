@@ -21,16 +21,11 @@
       position: absolute;
       top: 0;
       width: 100%;
-      padding: 10px 20px;
-      z-index: 1000;
-      flex-wrap: wrap;
-    }
-
-    .navbar-top {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      width: 100%;
+      padding: 10px 20px;
+      z-index: 1000;
     }
 
     .navbar .brand {
@@ -38,12 +33,6 @@
       font-weight: bold;
       color: rgb(0, 0, 0);
       text-decoration: none;
-    }
-
-    .menu-toggle {
-      display: none;
-      font-size: 24px;
-      cursor: pointer;
     }
 
     .navbar-links {
@@ -63,14 +52,16 @@
       background-color: #e7f6ea;
     }
 
-    @media (max-width: 768px) {
-      .menu-toggle {
-        display: block;
-      }
+    .menu-toggle {
+      display: none;
+      font-size: 24px;
+      cursor: pointer;
+      margin-left: auto;
+    }
 
+    @media (max-width: 768px) {
       .navbar {
-        flex-direction: column;
-        align-items: flex-start;
+        flex-wrap: wrap;
       }
 
       .navbar-links {
@@ -81,13 +72,17 @@
       }
 
       .navbar-links a {
-        color: white;
         text-align: left;
         padding: 12px 20px;
+        color: white;
       }
 
       .navbar.active .navbar-links {
         display: flex;
+      }
+
+      .menu-toggle {
+        display: block;
       }
     }
 
@@ -222,7 +217,7 @@
     .password-wrapper input[type="password"],
     .password-wrapper input[type="text"] {
       width: 100%;
-      padding-right: 40px;
+      padding-right: 40px; /* space for the icon */
     }
 
     .toggle-password {
@@ -232,10 +227,17 @@
       user-select: none;
     }
 
+
     .saved-password {
       display: inline-block;
-      padding-right: 40px;
+      padding-right: 40px; /* Space between password dots and the icon */
       font-family: monospace;
+    }
+
+    .password-wrapper {
+      position: relative;
+      display: inline-block;
+      width: 100%;
     }
 
     .password-wrapper .toggle-password {
@@ -248,23 +250,23 @@
       justify-content: center;
       cursor: pointer;
     }
+
+
   </style>
 </head>
+
 <body>
 
   <!-- Navbar -->
   <nav class="navbar" id="navbar">
-    <div class="navbar-top">
-      <a href="/" class="brand">Pass-Out Locker</a>
-      <span class="menu-toggle" onclick="toggleMenu()">☰</span>
-    </div>
+    <a href="/" class="brand">Pass-Out Locker</a>
+    <span class="menu-toggle" onclick="toggleMenu()">☰</span>
     <div class="navbar-links">
       <a href="/">Passwords</a>
       <a href="/note">Notes</a>
       <a href="#">About</a>
     </div>
   </nav>
-
   <script>
     function toggleMenu() {
       document.getElementById('navbar').classList.toggle('active');
@@ -291,7 +293,6 @@
          <img id="toggleIcon" src="{{ url_for('static', filename='images/eye-slash-svgrepo-com.svg') }}" alt="Toggle Password" width="24">
       </span>
     </div>
-
     <script>
       function togglePassword() {
         const passwordInput = document.getElementById('password');
@@ -304,6 +305,7 @@
           : "{{ url_for('static', filename='images/eye-slash-svgrepo-com.svg') }}";
       }
     </script>
+
 
     <button type="submit">Save Credentials</button>
   </form>
@@ -326,30 +328,32 @@
         <tbody>
           {% for passwordsaver in allsavepassword %}
           <tr>
-            <td>{{ loop.index }}</td>
-            <td>{{ passwordsaver.website }}</td>
-            <td>{{ passwordsaver.email }}</td>
-            <td>{{ passwordsaver.username }}</td>
+            <td scope="row">{{loop.index}}</td>
+            <td>{{passwordsaver.website}}</td>
+            <td>{{passwordsaver.email}}</td>
+            <td>{{passwordsaver.username}}</td>
             <td>
               <div class="password-wrapper">
                 <span class="saved-password" id="password-{{ passwordsaver.sno }}">••••••••</span>
                 <span class="toggle-password" onclick="toggleSavedPassword({{ passwordsaver.sno }}, '{{ passwordsaver.password }}')">
-                  <img id="icon-{{ passwordsaver.sno }}" src="{{ url_for('static', filename='images/eye-slash-svgrepo-com.svg') }}" alt="Toggle Password" width="20">
+                    <img id="icon-{{ passwordsaver.sno }}" src="{{ url_for('static', filename='images/eye-slash-svgrepo-com.svg') }}" alt="Toggle Password" width="20">
                 </span>
               </div>
             </td>
-
             <script>
               function toggleSavedPassword(id, actualPassword) {
                 const span = document.getElementById(`password-${id}`);
                 const icon = document.getElementById(`icon-${id}`);
                 const isVisible = span.textContent === actualPassword;
 
-                span.textContent = isVisible ? '••••••••' : actualPassword;
-                icon.src = isVisible
-                  ? "{{ url_for('static', filename='images/eye-slash-svgrepo-com.svg') }}"
-                  : "{{ url_for('static', filename='images/eye-svgrepo-com.svg') }}";
-              }
+                if (isVisible) {
+                  span.textContent = '••••••••';
+                  icon.src = "{{ url_for('static', filename='images/eye-slash-svgrepo-com.svg') }}";
+                } else {
+                  span.textContent = actualPassword;
+                  icon.src = "{{ url_for('static', filename='images/eye-svgrepo-com.svg') }}";
+                }
+                }
             </script>
 
             <td colspan="2">
