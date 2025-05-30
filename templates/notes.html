@@ -97,6 +97,15 @@
       box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
     }
 
+    .Saved_container {
+      max-width: 750px;
+      margin: 0 auto 80px;
+      padding: 0 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
     h1 {
       text-align: center;
       font-size: 28px;
@@ -250,7 +259,9 @@
 </head>
 
 <body>
-  <nav class="navbar">
+
+  <!-- Navbar -->
+  <nav class="navbar" id="navbar">
     <a href="/" class="brand">Pass-Out Locker</a>
     <span class="menu-toggle" onclick="toggleMenu()">☰</span>
     <div class="navbar-links">
@@ -259,21 +270,27 @@
       <a href="#">About</a>
     </div>
   </nav>
+  <script>
+    function toggleMenu() {
+      document.getElementById('navbar').classList.toggle('active');
+    }
+  </script>
 
   <div class="container">
     <h1>Notes</h1>
-
     <form action="/add" method="POST">
       <input type="text" name="topic" placeholder="Enter note topic">
       <textarea name="content" placeholder="Write your note..." rows="5" required></textarea>
       <input type="date" name="date" required>
       <button type="submit">Add Note</button>
     </form>
+  </div>
 
+  <div class="Saved_container">
     {% for note in notes %}
     <div class="note" role="article" aria-label="Note {{ note.sno }}">
       <div class="note-header">
-        <div class="note-index">#{{ note.sno }}</div>
+        <div class="note-index">#{{ loop.index }}</div>
         <div class="note-title">{{ note.topic }}</div>
       </div>
       <div class="note-date">{{ note.date.strftime('%B %d, %Y') }}</div>
@@ -294,11 +311,5 @@
     {% endfor %}
   </div>
 
-  <script>
-    function toggleMenu() {
-      const navbar = document.querySelector('.navbar');
-      navbar.classList.toggle('active');
-    }
-  </script>
 </body>
 </html>

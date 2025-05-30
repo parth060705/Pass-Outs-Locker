@@ -19,7 +19,6 @@
         form {
             background-color: #ffffff;
             width: 350px;
-            height: 400px;
             margin: auto;
             padding: 30px;
             border-radius: 10px;
@@ -33,7 +32,8 @@
             color: #4CAF50;
         }
 
-        input[type="text"] {
+        input[type="text"],
+        input[type="password"] {
             width: 100%;
             padding: 10px;
             margin-top: 5px;
@@ -57,12 +57,43 @@
         button:hover {
             background-color: #1d4ed8;
         }
+
+        .password-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .password-wrapper input {
+            padding-right: 40px;
+        }
+
+        .toggle-password {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .toggle-password img {
+            width: 24px;
+            height: 24px;
+            opacity: 0.7;
+            transition: opacity 0.2s ease, transform 0.2s ease;
+        }
+
+        .toggle-password:hover img {
+            opacity: 1;
+            transform: scale(1.1);
+        }
     </style>
 </head>
 
 <body>
     <form action="/update/{{ data.sno }}" method="POST">
-        <h2>Update {{ data.sno}} Credentials</h2>
+        <h2>Update {{ data.sno }} Credentials</h2>
 
         <label>Email:</label>
         <input type="text" name="email" value="{{ data.email }}">
@@ -70,11 +101,29 @@
         <label>Username:</label>
         <input type="text" name="username" value="{{ data.username }}">
 
-        <label>Password:</label>
-        <input type="text" name="password" value="{{ data.password }}">
+        <label for="password">Password</label>
+        <div class="password-wrapper">
+            <input type="password" id="password" name="password" value="{{ data.password }}" placeholder="Your password" required>
+            <span class="toggle-password" onclick="togglePassword()">
+                <img id="toggleIcon" src="{{ url_for('static', filename='images/eye-slash-svgrepo-com.svg') }}" alt="Toggle Password">
+            </span>
+        </div>
 
         <button type="submit">Update</button>
     </form>
+
+    <script>
+        function togglePassword() {
+            const passwordInput = document.getElementById('password');
+            const toggleIcon = document.getElementById('toggleIcon');
+            const isVisible = passwordInput.type === 'text';
+
+            passwordInput.type = isVisible ? 'password' : 'text';
+            toggleIcon.src = isVisible
+                ? "{{ url_for('static', filename='images/eye-svgrepo-com.svg') }}"
+                : "{{ url_for('static', filename='images/eye-slash-svgrepo-com.svg') }}";
+        }
+    </script>
 </body>
 
 </html>

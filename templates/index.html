@@ -86,6 +86,7 @@
     }
 
     .form-box {
+      background-color: #ffffff;
       max-width: 600px;
       margin: 2rem auto;
       padding: 2rem;
@@ -205,6 +206,51 @@
       background-color: #f8c8c5;
       transform: scale(1.1);
     }
+
+    .password-wrapper {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
+    .password-wrapper input[type="password"],
+    .password-wrapper input[type="text"] {
+      width: 100%;
+      padding-right: 40px; /* space for the icon */
+    }
+
+    .toggle-password {
+      position: absolute;
+      right: 10px;
+      cursor: pointer;
+      user-select: none;
+    }
+
+
+    .saved-password {
+      display: inline-block;
+      padding-right: 40px; /* Space between password dots and the icon */
+      font-family: monospace;
+    }
+
+    .password-wrapper {
+      position: relative;
+      display: inline-block;
+      width: 100%;
+    }
+
+    .password-wrapper .toggle-password {
+      position: absolute;
+      right: 8px;
+      top: 50%;
+      transform: translateY(-50%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+
+
   </style>
 </head>
 
@@ -220,6 +266,11 @@
       <a href="#">About</a>
     </div>
   </nav>
+  <script>
+    function toggleMenu() {
+      document.getElementById('navbar').classList.toggle('active');
+    }
+  </script>
 
   <!-- Password Form -->
   <form class="form-box" method="POST" action="/">
@@ -235,7 +286,25 @@
     <input type="text" id="username" name="username" placeholder="Your username">
 
     <label for="password">Password</label>
-    <input type="password" id="password" name="password" placeholder="Your password" required>
+    <div class="password-wrapper">
+      <input type="password" id="password" name="password" placeholder="Your password" required>
+      <span class="toggle-password" onclick="togglePassword()">
+         <img id="toggleIcon" src="{{ url_for('static', filename='images/eye-slash-svgrepo-com.svg') }}" alt="Toggle Password" width="24">
+      </span>
+    </div>
+    <script>
+      function togglePassword() {
+        const passwordInput = document.getElementById('password');
+        const toggleIcon = document.getElementById('toggleIcon');
+        const isVisible = passwordInput.type === 'text';
+
+        passwordInput.type = isVisible ? 'password' : 'text';
+        toggleIcon.src = isVisible
+          ? "{{ url_for('static', filename='images/eye-svgrepo-com.svg') }}"
+          : "{{ url_for('static', filename='images/eye-slash-svgrepo-com.svg') }}";
+      }
+    </script>
+
 
     <button type="submit">Save Credentials</button>
   </form>
@@ -258,11 +327,34 @@
         <tbody>
           {% for passwordsaver in allsavepassword %}
           <tr>
-            <td>{{passwordsaver.sno}}</td>
+            <td scope="row">{{loop.index}}</td>
             <td>{{passwordsaver.website}}</td>
             <td>{{passwordsaver.email}}</td>
             <td>{{passwordsaver.username}}</td>
-            <td>{{passwordsaver.password}}</td>
+            <td>
+              <div class="password-wrapper">
+                <span class="saved-password" id="password-{{ passwordsaver.sno }}">••••••••</span>
+                <span class="toggle-password" onclick="toggleSavedPassword({{ passwordsaver.sno }}, '{{ passwordsaver.password }}')">
+                    <img id="icon-{{ passwordsaver.sno }}" src="{{ url_for('static', filename='images/eye-slash-svgrepo-com.svg') }}" alt="Toggle Password" width="20">
+                </span>
+              </div>
+            </td>
+            <script>
+              function toggleSavedPassword(id, actualPassword) {
+                const span = document.getElementById(`password-${id}`);
+                const icon = document.getElementById(`icon-${id}`);
+                const isVisible = span.textContent === actualPassword;
+
+                if (isVisible) {
+                  span.textContent = '••••••••';
+                  icon.src = "{{ url_for('static', filename='images/eye-slash-svgrepo-com.svg') }}";
+                } else {
+                  span.textContent = actualPassword;
+                  icon.src = "{{ url_for('static', filename='images/eye-svgrepo-com.svg') }}";
+                }
+                }
+            </script>
+
             <td colspan="2">
               <div class="action-buttons">
                 <form method="GET" action="{{ url_for('update_form', sno=passwordsaver.sno) }}">
@@ -283,12 +375,6 @@
       </table>
     </div>
   </div>
-
-  <script>
-    function toggleMenu() {
-      document.getElementById('navbar').classList.toggle('active');
-    }
-  </script>
 
 </body>
 </html>
