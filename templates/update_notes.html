@@ -80,6 +80,32 @@
         .btn-group a {
             text-decoration: none;
         }
+    @media (max-width: 768px) {
+      .navbar {
+        flex-wrap: wrap;
+      }
+
+      .navbar-links {
+        display: none;
+        flex-direction: column;
+        width: 100%;
+        background-color: #4CAF50;
+      }
+
+      .navbar-links a {
+        text-align: left;
+        padding: 12px 20px;
+        color: white;
+      }
+
+      .navbar.active .navbar-links {
+        display: flex;
+      }
+
+      .menu-toggle {
+        display: block;
+      }
+    }
     </style>
 </head>
 <body>
